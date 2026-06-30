@@ -1,0 +1,105 @@
+# Integração de envio de dados para API via `fetch`
+
+## Objetivo
+
+Implementar um botão que envie os dados armazenados na aplicação para uma API HTTP utilizando `fetch`.
+
+## Requisitos
+
+* Criar um módulo `api.js` responsável pelo envio dos dados.
+* Utilizar `fetch` com método `POST`.
+* Enviar os dados no formato JSON.
+* A função deve ser assíncrona.
+* O botão **"Enviar dados para API"** deve coletar os dados através da função `getAll()` e chamar a função `post()`.
+
+## Implementação
+
+### api.js
+
+* Declarar uma constante `API_URL` contendo a URL do endpoint.
+* Implementar a função:
+
+```javascript
+export async function post(body)
+```
+
+A função deverá:
+
+1. Executar um `fetch` para `API_URL`.
+2. Utilizar:
+
+   * `method: "POST"`
+   * `headers` com `Content-Type: application/json`
+   * `body: JSON.stringify(body)`
+3. Aguardar a conclusão da requisição.
+
+### Dashboard
+
+O botão com id `send-api` deverá:
+
+1. Obter os registros utilizando:
+
+```javascript
+const contas = getAll();
+```
+
+2. Enviar os dados:
+
+```javascript
+await post(contas);
+```
+
+3. Em caso de sucesso:
+
+   * Exibir a mensagem "Dados enviados com sucesso!".
+   * Abrir uma nova aba para a URL configurada utilizando:
+
+```javascript
+window.open(API_URL, "_blank");
+```
+
+4. Em caso de erro:
+
+   * Registrar o erro no console.
+   * Exibir uma mensagem de falha ao usuário.
+
+## Observações sobre CORS
+
+Durante os testes foi identificado que alguns endpoints (como `webhook.site`) não permitem chamadas diretas do navegador devido à política de CORS.
+
+Quando o servidor não envia os cabeçalhos:
+
+* `Access-Control-Allow-Origin`
+* `Access-Control-Allow-Methods`
+* `Access-Control-Allow-Headers`
+
+o navegador bloqueia o acesso à resposta da requisição.
+
+## Uso de `mode: "no-cors"`
+
+Para endpoints que não suportam CORS, pode-se utilizar:
+
+```javascript
+mode: "no-cors"
+```
+
+Entretanto, nesse modo:
+
+* a requisição pode ser enviada;
+* o navegador não permite acessar a resposta;
+* `response.status` será `0`;
+* `response.ok` será `false`;
+* não é possível confirmar programaticamente se o servidor respondeu `200 OK`.
+
+Portanto, quando `mode: "no-cors"` estiver sendo utilizado, a conclusão do `fetch` apenas indica que o navegador tentou enviar a requisição, não sendo possível validar o código HTTP retornado.
+
+## Fluxo da funcionalidade
+
+1. Usuário clica em **Enviar dados para API**.
+2. A aplicação recupera os dados através de `getAll()`.
+3. Os dados são serializados para JSON.
+4. É realizada uma requisição HTTP `POST`.
+5. Após o envio:
+
+   * é exibida uma mensagem de sucesso;
+   * uma nova aba é aberta apontando para o endpoint configurado para conferência dos dados enviados.
