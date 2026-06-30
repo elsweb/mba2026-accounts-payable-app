@@ -1,0 +1,582 @@
+Segue um prompt detalhado que você pode enviar para outra IA.
+
+---
+
+# Prompt
+
+Crie uma aplicação completa de **Contas a Pagar (Accounts Payable)** utilizando **apenas HTML, CSS e JavaScript puro (Vanilla JavaScript)**.
+
+## Regras obrigatórias
+
+* Não utilizar nenhum framework.
+* Não utilizar React, Vue, Angular, Bootstrap, Tailwind ou qualquer biblioteca externa.
+* Não utilizar TypeScript.
+* Todo o código deve ser organizado em módulos JavaScript ES6.
+* A arquitetura deve ser limpa e de fácil manutenção.
+* Todo o armazenamento deverá funcionar no navegador utilizando LocalStorage.
+* O sistema deverá funcionar 100% offline.
+* Caso exista uma API configurada, deverá sincronizar automaticamente.
+* Caso a API esteja indisponível, o sistema deve continuar funcionando normalmente utilizando apenas o LocalStorage.
+
+---
+
+# Objetivo
+
+Criar um sistema completo de gestão de contas a pagar que possa funcionar como um PWA futuramente.
+
+A aplicação deve possuir arquitetura preparada para sincronização com backend, porém totalmente funcional apenas no frontend.
+
+---
+
+# Estrutura do projeto
+
+Organizar em pastas.
+
+```
+/
+    index.html
+
+/css
+    reset.css
+    variables.css
+    layout.css
+    components.css
+    pages.css
+
+/js
+
+    app.js
+
+    config.js
+
+    api/
+        api.js
+
+    auth/
+        login.js
+        register.js
+        auth.js
+
+    storage/
+        storage.js
+
+    services/
+        accountService.js
+        syncService.js
+
+    models/
+        account.js
+        user.js
+
+    views/
+        loginView.js
+        dashboardView.js
+        formView.js
+
+    utils/
+        crypto.js
+        validator.js
+        helpers.js
+
+/assets
+```
+
+Toda estrutura deve ser modular.
+
+---
+
+# Cadastro de usuário
+
+O cadastro deverá possuir apenas:
+
+* Email
+* Senha
+
+Nada além disso.
+
+---
+
+## Login
+
+O login deverá validar:
+
+* email
+* senha
+
+Caso seja válido, deverá criar uma sessão utilizando LocalStorage.
+
+---
+
+# Segurança
+
+A senha nunca poderá ser salva em texto puro.
+
+Deverá ser utilizada a API nativa:
+
+```
+window.crypto.subtle
+```
+
+Utilizar SHA-256.
+
+Caso seja necessário adicionar salt, utilizar.
+
+Nunca armazenar senha em texto puro.
+
+---
+
+# Sessão
+
+Criar um sistema simples.
+
+Salvar:
+
+```
+loggedUser
+```
+
+no LocalStorage.
+
+Ao abrir novamente a aplicação deverá permanecer logado.
+
+Deverá existir botão Logout.
+
+---
+
+# Contas a pagar
+
+Cada conta deverá possuir:
+
+```
+id
+
+descricao
+
+categoria
+
+fornecedor
+
+valor
+
+data_vencimento
+
+data_pagamento
+
+status
+
+observacoes
+
+createdAt
+
+updatedAt
+```
+
+Status:
+
+```
+Pendente
+
+Pago
+
+Vencido
+
+Cancelado
+```
+
+---
+
+# Funcionalidades
+
+Cadastrar conta
+
+Editar conta
+
+Excluir conta
+
+Pesquisar
+
+Filtrar
+
+Ordenar
+
+Duplicar conta
+
+Marcar como paga
+
+Cancelar conta
+
+Restaurar conta
+
+---
+
+# Dashboard
+
+Exibir cartões:
+
+Total de contas
+
+Total pendente
+
+Total pago
+
+Total vencido
+
+Valor total
+
+Valor pago
+
+Valor pendente
+
+Próximos vencimentos
+
+---
+
+# Listagem
+
+Tabela contendo
+
+Descrição
+
+Fornecedor
+
+Categoria
+
+Valor
+
+Vencimento
+
+Pagamento
+
+Status
+
+Ações
+
+---
+
+# Pesquisa
+
+Pesquisar por
+
+Descrição
+
+Fornecedor
+
+Categoria
+
+Observação
+
+---
+
+# Filtros
+
+Status
+
+Categoria
+
+Fornecedor
+
+Período
+
+Valor mínimo
+
+Valor máximo
+
+---
+
+# Ordenação
+
+Por
+
+Data
+
+Valor
+
+Fornecedor
+
+Descrição
+
+Status
+
+---
+
+# Armazenamento
+
+Toda alteração deverá atualizar imediatamente o LocalStorage.
+
+Criar uma camada:
+
+```
+StorageService
+```
+
+com métodos
+
+```
+save()
+
+update()
+
+delete()
+
+find()
+
+findAll()
+
+clear()
+
+export()
+
+import()
+```
+
+Nunca acessar o LocalStorage diretamente fora desta camada.
+
+---
+
+# API
+
+Criar uma camada isolada.
+
+```
+ApiService
+```
+
+Ela deverá possuir
+
+```
+login()
+
+register()
+
+listar()
+
+buscar()
+
+criar()
+
+editar()
+
+remover()
+
+sincronizar()
+```
+
+---
+
+## Configuração
+
+Criar
+
+```
+config.js
+```
+
+```
+const CONFIG = {
+
+    API_ENABLED: false,
+
+    API_URL: "",
+
+    TOKEN: ""
+
+}
+```
+
+---
+
+## Funcionamento
+
+Se
+
+```
+API_ENABLED == false
+```
+
+Todo o sistema utiliza apenas o LocalStorage.
+
+Se
+
+```
+API_ENABLED == true
+```
+
+Todas as operações passam primeiro pela API.
+
+Caso a API falhe
+
+Timeout
+
+Erro
+
+Servidor offline
+
+Erro 500
+
+Erro de rede
+
+automaticamente utilizar LocalStorage.
+
+Sem perder dados.
+
+---
+
+# Sincronização
+
+Criar um SyncService.
+
+Quando a API voltar:
+
+Enviar automaticamente os registros pendentes.
+
+Atualizar os registros locais.
+
+Resolver conflitos usando
+
+```
+updatedAt
+```
+
+O registro mais recente vence.
+
+---
+
+# Exportação
+
+Permitir exportar
+
+JSON
+
+CSV
+
+---
+
+# Importação
+
+Permitir importar
+
+JSON
+
+CSV
+
+Validar estrutura antes.
+
+---
+
+# Interface
+
+Visual moderno.
+
+Minimalista.
+
+Responsivo.
+
+Desktop
+
+Tablet
+
+Celular
+
+Sem frameworks.
+
+---
+
+# Componentes
+
+Modal
+
+Toast
+
+Loading
+
+Confirm Dialog
+
+Dropdown
+
+Tooltip
+
+Tabela
+
+Cards
+
+Formulários
+
+---
+
+# Validações
+
+Campos obrigatórios
+
+Valor numérico
+
+Email válido
+
+Datas válidas
+
+Duplicidade
+
+Mensagens amigáveis
+
+---
+
+# Experiência do usuário
+
+Feedback visual para todas as ações.
+
+Animações suaves utilizando apenas CSS.
+
+Nenhuma atualização deverá recarregar a página.
+
+Toda navegação deverá acontecer utilizando JavaScript.
+
+---
+
+# Código
+
+Seguir boas práticas.
+
+Funções pequenas.
+
+Arquivos pequenos.
+
+Responsabilidade única.
+
+Sem código duplicado.
+
+Sem variáveis globais.
+
+Comentários apenas quando realmente necessários.
+
+---
+
+# Qualidade
+
+Código legível.
+
+Bem documentado.
+
+Separação clara entre:
+
+* Interface
+* Regras de negócio
+* Persistência
+* Comunicação com API
+
+---
+
+# Entrega esperada
+
+A IA deverá gerar um projeto completo e funcional contendo:
+
+* Estrutura de pastas.
+* Todos os arquivos HTML.
+* Todos os arquivos CSS.
+* Todos os arquivos JavaScript.
+* Sistema completo de autenticação em frontend.
+* Persistência em LocalStorage.
+* Camada de API desacoplada.
+* Sistema de sincronização.
+* CRUD completo de contas a pagar.
+* Dashboard com indicadores.
+* Exportação e importação de dados.
+* Interface moderna, responsiva e pronta para futura integração com um backend, sem depender dele para funcionar.

@@ -1,0 +1,1 @@
+export const CONFIG={API_ENABLED:false,API_URL:'',TOKEN:''};
