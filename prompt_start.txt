@@ -580,3 +580,7 @@ A IA deverá gerar um projeto completo e funcional contendo:
 * Dashboard com indicadores.
 * Exportação e importação de dados.
 * Interface moderna, responsiva e pronta para futura integração com um backend, sem depender dele para funcionar.
+
+
+#new sub task
+Esta salvando as contas mas quero listar e colocar ação
