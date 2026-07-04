@@ -1,0 +1,115 @@
+Segue um prompt bem estruturado para dar continuidade ao desenvolvimento do dashboard:
+
+---
+
+### Prompt
+
+> Quero refatorar o Dashboard do meu sistema financeiro sem alterar a arquitetura atual do projeto (JavaScript ES Modules, HTML e CSS puros).
+>
+> ### Objetivos
+>
+> **1. Separar o Dashboard em duas seções independentes**
+>
+> * Contas a Pagar
+> * Contas a Receber
+>
+> Cada seção deve possuir seu próprio bloco (card/container), sem misturar informações.
+>
+> ---
+>
+> **2. Criar um Accordion (Toggle)**
+>
+> Cada seção deve iniciar **fechada**.
+>
+> Exemplo:
+>
+> ```
+> ▶ Contas a Pagar
+>
+> ▶ Contas a Receber
+> ```
+>
+> Ao clicar:
+>
+> ```
+> ▼ Contas a Pagar
+>    Total
+>    Pago
+>    Pendente
+>    Vencido
+>    Valor Total
+>    Valor Pago
+>    Valor Pendente
+> ```
+>
+> Clicando novamente, o conteúdo deve ser ocultado.
+>
+> Não utilizar Bootstrap, jQuery ou qualquer biblioteca externa. Apenas JavaScript puro.
+>
+> ---
+>
+> **3. Manter o botão "Enviar dados para API"**
+>
+> O botão deve permanecer no topo da página exatamente como está.
+>
+> ---
+>
+> **4. Manter a estrutura existente**
+>
+> Não alterar:
+>
+> * DashboardView()
+> * accountService.js
+> * api.js
+> * rotas
+> * imports
+>
+> Apenas melhorar a interface.
+>
+> ---
+>
+> **5. Melhorar o CSS**
+>
+> Criar estilos para:
+>
+> * bloco (.bloco)
+> * título clicável (.toggle)
+> * conteúdo expansível (.conteudo)
+> * animação de abrir/fechar
+> * efeito hover
+> * bordas arredondadas
+> * sombra leve
+> * layout responsivo
+>
+> ---
+>
+> **6. Melhorar a visualização dos indicadores**
+>
+> Dentro de cada bloco, substituir a lista simples por cards menores:
+>
+> ```
+> Total
+> 15
+>
+> Pago
+> 10
+>
+> Pendente
+> 5
+>
+> Valor Total
+> R$ 15.000,00
+> ```
+>
+> Cada indicador deve possuir seu próprio card.
+>
+> ---
+>
+> **7. Não quebrar o projeto**
+>
+> Entregar o código completo do:
+>
+> * DashboardView.js
+> * CSS necessário
+>
+> Pronto para copiar e colar, preservando toda a funcionalidade existente.
